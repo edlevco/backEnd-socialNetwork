@@ -28,7 +28,7 @@ def __main__():
                 if (current_client != None): # if a client has been found, enter
                     joining = False
                 else:
-                    print("Wrong password: Try again. \n")
+                    print("Incorrect username or password: Try again. \n")
             else:
                 print("Please enter a valid option: (1) or (2)")
 

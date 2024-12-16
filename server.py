@@ -1,5 +1,5 @@
 from client import Client, client_info_file
-import bcrypt
+import ecrypt
 
 class Server:
     def __init__ (self):
@@ -16,10 +16,6 @@ class Server:
                 username = lines[i].strip()
                 password = lines[i + 1].strip()
                 notifications = lines[i + 2].strip()
-
-                # Convert the hashed password back to bytes
-                if password.startswith("b'") and password.endswith("'"):
-                    password = eval(password)  # Convert string representation of bytes back to bytes
 
                 self.clients.append(Client(username, password, notifications, False))
 
@@ -54,28 +50,21 @@ class Server:
 
         return password
     
-    import bcrypt
 
     def findClient(self):
         username = input("Enter your username: ")
 
-        # Ensure clients list exists and is not empty
-        if not self.clients:
-            print("No clients available.")
-            return None
-
         for client in self.clients:
             if username.lower() == client.username.lower():  # Case-insensitive match
                 password = input("Enter your password: ")
-
-                if hasattr(client, 'hashed') and bcrypt.checkpw(password, client.hashed):
+                print(password)
+                print(ecrypt.decrypt(client.encrypt))
+                if password == ecrypt.decrypt(client.encrypt):
                     print("Login successful!")
                     return client
                 else:
-                    print("Incorrect password.")
                     return None
-
-        print("Username not found.")
+        password = input("Enter your password: ") # whatever they enter returns same message
         return None
 
 

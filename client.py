@@ -1,4 +1,4 @@
-import bcrypt
+import ecrypt
 
 
 client_info_file = "client_info.txt"
@@ -8,15 +8,15 @@ class Client:
         password = password.lower()
         self.username = username.lower()
         if isNew:
-            self.hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+            self.encrypt = ecrypt.encrypt(password)
         else:
-            self.hashed = password # already hashed 
+            self.encrypt = password # already encrypted
         self.notifications = notifications
 
     def writeToServer(self):
         with open (client_info_file, "a") as f:
             f.write(self.username+"\n")
-            f.write(str(self.hashed)+"\n")
+            f.write(self.encrypt+"\n")
             f.write(str(self.notifications)+"\n")
 
     
