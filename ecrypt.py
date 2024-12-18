@@ -23,6 +23,8 @@ def decrypt(password):
         letterArray.append(letter)
     word = "".join(letterArray)
 
+    return word
+
 
 
 

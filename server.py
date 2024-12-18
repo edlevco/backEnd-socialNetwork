@@ -57,7 +57,7 @@ class Server:
         for client in self.clients:
             if username.lower() == client.username.lower():  # Case-insensitive match
                 password = input("Enter your password: ")
-                print(password)
+
                 print(ecrypt.decrypt(client.encrypt))
                 if password == ecrypt.decrypt(client.encrypt):
                     print("Login successful!")
@@ -65,6 +65,13 @@ class Server:
                 else:
                     return None
         password = input("Enter your password: ") # whatever they enter returns same message
+        return None
+    
+    def getClient(self, username):
+        for client in self.clients:
+            if client.username == username:
+                return client
+            
         return None
 
 
