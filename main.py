@@ -28,29 +28,24 @@ def __main__():
         isLoggedIn = True
         connected_client = None
         
-        
         while isLoggedIn:
             mainOption = getValidInt("(1) Search Accounts\n(2) View Chats\n(3) View Notifications\n(4) Sign Out\n", 1, 4)
 
             if mainOption == 1:
                 accountUsername = input("Search for account with username: ").lower()
-                connected_client = server.getClient(accountUsername)
+                connected_client = server.get_client(accountUsername)
                 if connected_client == None:
                     print("No user found with username: "+ accountUsername)
                 else:
                     onProfile = True
                     while onProfile:
-                        print(f"{accountUsername} \nFollowers: {len(connected_client.followers)}\n")
-
+                        server.print_user_stats(accountUsername)
                         profileOptions = getValidInt("(1) Follow\n(2) Send Message\n(3) Return To Home", 1, 3)
+
                         if profileOptions == 1:
-                            if (self.username in connected_client.followers):
-                                print(f"You already follow {accountUsername}")
-                            else:
-                                with open("userFollowers/"+connected_client.username+".txt", "a") as f:
-                                    f.write(self.username.lower())
-                                print(f"You have followed: {accountUsername}")
-                                connected_client.followers.append(self.username)
+                            server.follow_user(self, connected_client)
+                        elif profileOptions == 2:
+                            server.send_chat(self, connected_client)
                         elif profileOptions == 3:
                             onProfile = False
 

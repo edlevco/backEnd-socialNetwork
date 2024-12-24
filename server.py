@@ -93,3 +93,37 @@ class Server:
         if not os.path.exists(FILE_PATH):
             with open(FILE_PATH, "w") as f:
                 json.dump({"clients": {}}, f, indent=4)
+    
+    def follow_user(self, follower, followed):
+        follower_username = follower["username"]
+        followed_username = followed["username"]
+        data = self.load_json()
+        follower = data["clients"].get(follower_username)
+        followed = data["clients"].get(followed_username)
+
+        if follower["username"] == followed["username"]:
+            print("You cannot follow yourself")
+        elif follower["username"] in followed["followers"]:
+            print(f"You already follow {followed["username"]}")
+        else:
+            followed["notifications"].append(f"{follower["username"]} has followed you.")
+            followed["followers"].append(follower["username"])
+            print(f"You have followed {followed["username"]}")
+        self.save_json(data)
+    
+    def send_chat(self, sender, recipient):
+        sender_username = sender["username"]
+        recipient_username = recipient["username"]
+        data = self.load_json()
+        sender = data["clients"].get(sender_username)
+        recipient = data["clients"].get(recipient_username)
+
+        message = input(f"To {recipient["username"]}:\n{sender["username"]}: ")
+        recipient["notifications"].append(f"{sender["username"]} has sent you a message.")
+        recipient["chats"].append([sender["username"], message])
+        self.save_json(data)
+
+    def print_user_stats(self, username):
+        data = self.load_json()
+        print(f"\nAccount: {username}\nFollowers: {len(data["clients".get(username)["followers"]])}\n")
+    
