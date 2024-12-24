@@ -1,86 +1,95 @@
-from client import Client, client_info_file
-import ecrypt
+import bcrypt
+import os
+import json
+import base64
+
+FILE_PATH = "clients_json.json"
+
 
 class Server:
-    def __init__ (self):
-        self.clients = []
+    def __init__(self):
+        self.initialize_json_file()
 
-    def restoreClients(self):
-        try:
-            with open(client_info_file, 'r') as f:
-                lines = f.readlines()  # Read all lines at once
-        except IOError as e:
-            print(f"Error opening file '{client_info_file}': {e}")
-        else:
-            for i in range(0, len(lines), 3):
-                username = lines[i].strip()
-                password = lines[i + 1].strip()
-                notifications = lines[i + 2].strip()
-
-                self.clients.append(Client(username, password, notifications, False))
-
-
-    def makeNewClient(self):
-        print("Creating new client\n")
-        username = self.makeUsername()
-        password = self.makePassword()
-        notifications = 0
-
-        newClient = Client(username, password, notifications, True)
-        self.clients.append(newClient)
-        newClient.writeToServer()
-
-    def makeUsername(self):
+    def make_new_client(self):
+        """Create a new client."""
         while True:
-            unique = True
-            username = input("Make a username: ")
+            username = self.make_username()
+            password = self.get_password()
+            hashed_pass = self.hash_password(password)
 
-            for client in self.clients:
-                if client.username == username.lower():
-                    unique = False
-                    print(f"The username '{username}' already exists\nPlease enter a new username\n")
-            
-            if unique == True:
-                break
+            if self.add_client(username, hashed_pass):
+                print("\nSuccessful Sign Up\n")
+                return self.get_client(username)
+            else:
+                print("Username already in use: Try Again\n")
 
-        return username
-    
-    def makePassword(self):
-        password = input("Enter your password: ")
+    def make_username(self):
+        """Prompt user for a unique username."""
+        return input("Enter a unique username: ")
 
-        return password
-    
+    def get_password(self):
+        """Prompt user for a password."""
+        return input("Enter your password: ")
 
-    def clientLogIn(self):
+    def client_login(self):
+        """Log in an existing client."""
+        data = self.load_json()
         username = input("Enter your username: ")
 
-        for client in self.clients:
-            if username.lower() == client.username.lower():  # Case-insensitive match
-                password = input("Enter your password: ")
+        if username in data["clients"]:
+            password = input("Enter your password: ")
+            stored_hash = base64.b64decode(data["clients"][username]["password"])
 
-                print(ecrypt.decrypt(client.encrypt))
-                if password == ecrypt.decrypt(client.encrypt):
-                    print("Login successful!")
-                    return client
-                else:
-                    return None
-        password = input("Enter your password: ") # whatever they enter returns same message
-        return None
-    
-    def getClient(self, username):
-        for client in self.clients:
-            if client.username == username:
-                return client
-            
-        return None
+            if bcrypt.checkpw(password.encode(), stored_hash):
+                print("Login Successful!")
+                return data["clients"][username]
+            else:
+                print("Invalid password.")
+                return None
+        else:
+            print("Username not found.")
+            return None
 
+    def get_client(self, username):
+        """Retrieve a client by username."""
+        data = self.load_json()
+        return data["clients"].get(username, None)
 
+    def hash_password(self, password):
+        """Hash a password using bcrypt."""
+        hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+        return base64.b64encode(hashed).decode()  # Encode in Base64 for JSON compatibility
 
-        
+    def add_client(self, username, password):
+        """Add a new client to the JSON file."""
+        data = self.load_json()
 
+        if username in data["clients"]:
+            return False
 
-            
+        # Add the new client
+        data["clients"][username] = {
+            "username": username,
+            "password": password,
+            "notifications": [],
+            "followers": [],
+            "chats": []
+        }
+        self.save_json(data)
+        return True
 
+    def load_json(self):
+        """Load data from the JSON file."""
+        with open(FILE_PATH, "r") as f:
+            return json.load(f)
 
+    def save_json(self, data):
+        """Save data to the JSON file."""
+        with open(FILE_PATH, "w") as f:
+            json.dump(data, f, indent=4)
 
-            
+    def initialize_json_file(self):
+        """Create the JSON file if it doesn't exist."""
+        if not os.path.exists(FILE_PATH):
+            with open(FILE_PATH, "w") as f:
+                json.dump({"clients": {}}, f, indent=4)

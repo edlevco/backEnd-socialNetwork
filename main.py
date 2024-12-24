@@ -1,9 +1,6 @@
-from client import Client, client_info_file
 from server import Server
 
 server = Server()
-server.restoreClients()
-
 
 def __main__():
     server_on = True
@@ -16,18 +13,17 @@ def __main__():
             joinOption = getValidInt("\n(1) Sign up\n(2) Log in\n", 1, 2)
             
             if joinOption == 1:
-                server.makeNewClient()
-                self = server.clients[-1]
+                self = server.make_new_client()
                 joining = False
                 break
             elif joinOption == 2:
-                self = server.clientLogIn()
+                self = server.client_login()
                 if (self != None): # if a client has been found, enter
                     joining = False
                 else:
                     print("Incorrect username or password: Try again. \n")
 
-        print("Welcome to Instagram: "+ self.username)
+        print("Welcome to Instagram: "+ self["username"])
 
         isLoggedIn = True
         connected_client = None
@@ -62,9 +58,7 @@ def __main__():
                 isLoggedIn = False
 
 
-                
-
-
+            
 def getValidInt(prompt, min, max):
     while True:
         userNum = input(prompt)
