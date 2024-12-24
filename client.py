@@ -8,8 +8,13 @@ class Client:
         password = password.lower()
         self.username = username.lower()
         if isNew:
+            with open("userFollowers/"+self.username+".txt", "a") as f:
+                pass
+            self.followers = []
             self.encrypt = ecrypt.encrypt(password)
         else:
+            with open("userFollowers/"+username+".txt", "r") as f:
+                self.followers = [line.strip() for line in f.readlines()]
             self.encrypt = password # already encrypted
         self.notifications = notifications
 

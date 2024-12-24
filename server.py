@@ -51,7 +51,7 @@ class Server:
         return password
     
 
-    def findClient(self):
+    def clientLogIn(self):
         username = input("Enter your username: ")
 
         for client in self.clients:

@@ -7,47 +7,59 @@ server.restoreClients()
 
 def __main__():
     server_on = True
-    current_client = None
+    self = None
     while server_on:
         joining = True
         while joining:
             print("Welcome to Pinstagram")
 
-            joinOption = getValidInt("\n(1) Sign up\n(2) Log in", 1, 2)
+            joinOption = getValidInt("\n(1) Sign up\n(2) Log in\n", 1, 2)
             
             if joinOption == 1:
                 server.makeNewClient()
-                current_client = server.clients[-1]
+                self = server.clients[-1]
                 joining = False
                 break
             elif joinOption == 2:
-                current_client = server.findClient()
-                if (current_client != None): # if a client has been found, enter
+                self = server.clientLogIn()
+                if (self != None): # if a client has been found, enter
                     joining = False
                 else:
                     print("Incorrect username or password: Try again. \n")
 
-        print("Welcome to Instagram: "+ current_client.username)
+        print("Welcome to Instagram: "+ self.username)
 
         isLoggedIn = True
         connected_client = None
         
+        
         while isLoggedIn:
-            mainOption = getValidInt("(1) Search Accounts\n(2) View Chats\n(3) View Notifications", 1, 3)
+            mainOption = getValidInt("(1) Search Accounts\n(2) View Chats\n(3) View Notifications\n(4) Sign Out\n", 1, 4)
 
             if mainOption == 1:
                 accountUsername = input("Search for account with username: ").lower()
-                connected_client = server.findClient(accountUsername)
+                connected_client = server.getClient(accountUsername)
                 if connected_client == None:
                     print("No user found with username: "+ accountUsername)
                 else:
-                    print(f"Account Found: {accountUsername} \nFollowers: {connected_client.followers}")
+                    onProfile = True
+                    while onProfile:
+                        print(f"{accountUsername} \nFollowers: {len(connected_client.followers)}\n")
 
-                    profileOptions = getValidInt("(1) Follow\n(2) Send Message", 1, 2)
+                        profileOptions = getValidInt("(1) Follow\n(2) Send Message\n(3) Return To Home", 1, 3)
+                        if profileOptions == 1:
+                            if (self.username in connected_client.followers):
+                                print(f"You already follow {accountUsername}")
+                            else:
+                                with open("userFollowers/"+connected_client.username+".txt", "a") as f:
+                                    f.write(self.username.lower())
+                                print(f"You have followed: {accountUsername}")
+                                connected_client.followers.append(self.username)
+                        elif profileOptions == 3:
+                            onProfile = False
 
-                    if profileOptions == 1:
-                        print(f"You have followed: {accountUsername}")
-                        connected_client.followers += 1
+            elif mainOption == 4:
+                isLoggedIn = False
 
 
                 
