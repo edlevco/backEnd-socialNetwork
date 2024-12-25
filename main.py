@@ -39,8 +39,8 @@ def __main__():
                 else:
                     onProfile = True
                     while onProfile:
-                        server.print_user_stats(accountUsername)
-                        profileOptions = getValidInt("(1) Follow\n(2) Send Message\n(3) Return To Home", 1, 3)
+                        server.print_user_stats(self, accountUsername)
+                        profileOptions = getValidInt("(1) Follow/ Unfollow\n(2) Send Message\n(3) Return To Home\n\n", 1, 3)
 
                         if profileOptions == 1:
                             server.follow_user(self, connected_client)
@@ -52,8 +52,6 @@ def __main__():
             elif mainOption == 4:
                 isLoggedIn = False
 
-
-            
 def getValidInt(prompt, min, max):
     while True:
         userNum = input(prompt)
@@ -67,6 +65,5 @@ def getValidInt(prompt, min, max):
                 print(f"Error: Please enter an integer between {min} and {max}.")
         except ValueError:
             print("Error: Invalid input. Please enter a valid integer.")
-
 
 __main__()

@@ -2,12 +2,17 @@ import bcrypt
 import os
 import json
 import base64
+from termcolor import colored
+
+
 
 FILE_PATH = "clients_json.json"
 
 
 class Server:
+    
     def __init__(self):
+        print(colored("Hello", "red"))
         self.initialize_json_file()
 
     def make_new_client(self):
@@ -104,9 +109,11 @@ class Server:
         if follower["username"] == followed["username"]:
             print("You cannot follow yourself")
         elif follower["username"] in followed["followers"]:
-            print(f"You already follow {followed["username"]}")
+            print(f"You have unfollowed {followed["username"]}")
+            followed["notifications"].append(f"{follower["username"]} has unfollowed you.")
+            followed["followers"].remove(follower["username"])
         else:
-            followed["notifications"].append(f"{follower["username"]} has followed you.")
+            followed["notifications"].append(f"{follower["username"]} has followed you.", "hello")
             followed["followers"].append(follower["username"])
             print(f"You have followed {followed["username"]}")
         self.save_json(data)
@@ -123,7 +130,20 @@ class Server:
         recipient["chats"].append([sender["username"], message])
         self.save_json(data)
 
-    def print_user_stats(self, username):
+    def print_user_stats(self, current, username):
         data = self.load_json()
-        print(f"\nAccount: {username}\nFollowers: {len(data["clients".get(username)["followers"]])}\n")
+        followers = data["clients"].get(username)["followers"]
+        follow_status = None
+        if current["username"] in followers:
+            follow_status = "Following"
+        else:
+            follow_status = "Follow"
+
+        print(f"\nAccount: {username}\nFollowers: {len(data["clients"][username]["followers"])}\n{follow_status}")
+
+
+        ## add read vs unread status
+        ## add color
+        # notifications [{message, status}]
+        # chats [sender, message, status]
     

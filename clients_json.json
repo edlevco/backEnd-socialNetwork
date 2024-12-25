@@ -1,21 +1,31 @@
 {
     "clients": {
-        "1": {
-            "username": "1",
-            "password": "JDJiJDEyJE1UY0JRSTZJVWVNdlR1VDY1T3VvcWV3OWp0T3E5Y1JiTy5Wb2diTTBUU09pd3hrRTgyL3px",
-            "notifications": [],
-            "followers": [],
-            "chats": []
-        },
-        "2": {
-            "username": "2",
-            "password": "JDJiJDEyJERPazdkSUtXRWxKRU00TWZzR1FuamViamJ4a0czSnY3aEhKTEpybE5mY2VZWEJRc3gyREY2",
+        "ed": {
+            "username": "ed",
+            "password": "JDJiJDEyJEQ0QTMuOWoxRFpBa3RnWHRPcFdYSy5wRXEwWlJHSzNqVnFidjZIOEdLSGpPcEwweGFNem9T",
             "notifications": [
-                "1 has followed you."
+                "el has followed you.",
+                "el has unfollowed you.",
+                "el has followed you.",
+                "el has unfollowed you.",
+                "el has followed you.",
+                "el has unfollowed you.",
+                "el has followed you.",
+                "el has unfollowed you.",
+                "el has followed you.",
+                "el has unfollowed you.",
+                "el has followed you."
             ],
             "followers": [
-                "1"
+                "el"
             ],
+            "chats": []
+        },
+        "el": {
+            "username": "el",
+            "password": "JDJiJDEyJFcuTlgzWndiV1d5LjNMcWdKY1AwLmVSQ2pOQWptcEVpa1BVazh6M1l2NTdXRjdBQk9CcnNh",
+            "notifications": [],
+            "followers": [],
             "chats": []
         }
     }
