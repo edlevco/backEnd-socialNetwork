@@ -46,15 +46,15 @@ def __main__():
                         profileOptions = getValidInt(f"(1) Follow/ Unfollow\n(2) Send Message\n{colored("(3) Return Home", "red")}\n\n", 1, 3)
 
                         if profileOptions == 1:
-                            server.follow_user(self, connected_client)
+                            server.follow_user(self["username"], accountUsername)
                         elif profileOptions == 2:
-                            server.send_chat(self, connected_client)
+                            server.send_chat(self["username"], accountUsername)
                         elif profileOptions == 3:
                             onProfile = False
             if mainOption == 2:
-                server.print_user_chats(self)
+                server.print_user_category(self, "chats")
             if mainOption == 3:
-                server.print_user_notifications(self)
+                server.print_user_category(self, "notifications")
 
             elif mainOption == 4:
                 isLoggedIn = False
@@ -62,7 +62,6 @@ def __main__():
 def getValidInt(prompt, min, max):
     while True:
         userNum = input(prompt)
-
         try:
             num = int(userNum)  # Attempt to parse the input as an integer
 

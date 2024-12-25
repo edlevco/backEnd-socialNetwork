@@ -9,9 +9,8 @@ FILE_PATH = "clients_json.json"
 class Server:
     
     def __init__(self):
-        self.initialize_json_file()
+        self.initialize_json_file() # make the json file when server is made
         
-
     def make_new_client(self):
         """Create a new client."""
         while True:
@@ -38,7 +37,6 @@ class Server:
         data = self.load_json()
         username = input("Enter your username: ").capitalize()
 
-        
 
         if username in data["clients"]:
             password = input("Enter your password: ")
@@ -68,7 +66,6 @@ class Server:
         """Add a new client to the JSON file."""
         data = self.load_json()
 
-
         if username in data["clients"]:
             return False
 
@@ -81,15 +78,15 @@ class Server:
             "chats": []
         }
         self.save_json(data)
-        return True
+        return True ## use has been made and added to JSON file
 
     def load_json(self):
-        """Load data from the JSON file."""
+        # read JSON and return its contents
         with open(FILE_PATH, "r") as f:
             return json.load(f)
 
     def save_json(self, data):
-        """Save data to the JSON file."""
+        # dump the data back in with an indent of 4
         with open(FILE_PATH, "w") as f:
             json.dump(data, f, indent=4)
 
@@ -99,6 +96,7 @@ class Server:
             with open(FILE_PATH, "w") as f:
                 json.dump({"clients": {}}, f, indent=4)
 
+            ## make Pinstagram acount
             populated_array = self.make_array(9)
             data = self.load_json()
             data["clients"]["Pinstagram"] = {
@@ -111,35 +109,31 @@ class Server:
             self.save_json(data)
                 
     
-    def follow_user(self, follower, followed):
-        follower_username = follower["username"]
-        followed_username = followed["username"]
+    def follow_user(self, follower_username, followed_username):
         data = self.load_json()
         follower = data["clients"].get(follower_username)
         followed = data["clients"].get(followed_username)
 
-        if follower["username"] == followed["username"]:
+        if follower_username == followed_username:
             print(colored("You cannot follow yourself", "yellow"))
-        elif follower["username"] in followed["followers"]:
+        elif follower_username in followed["followers"]:
             print(colored(f"\nYou have unfollowed {followed["username"]}", "blue"))
             followed["notifications"].append({"message": f"{follower["username"]} has unfollowed you.", "isRead": False})
             followed["followers"].remove(follower["username"])
         else:
-            followed["notifications"].append({"message": f"{follower["username"]} has followed you.", "isRead": False})
-            followed["followers"].append(follower["username"])
-            print(colored(f"\nYou have followed {followed["username"]}", "green"))
+            followed["notifications"].append({"message": f"{follower_username} has followed you.", "isRead": False})
+            followed["followers"].append(follower_username)
+            print(colored(f"\nYou have followed {followed_username}", "green"))
         self.save_json(data)
     
-    def send_chat(self, sender, recipient):
-        sender_username = sender["username"]
-        recipient_username = recipient["username"]
+    def send_chat(self, sender_username, recipient_username):
         data = self.load_json()
         sender = data["clients"].get(sender_username)
         recipient = data["clients"].get(recipient_username)
 
-        message = input(f"To {recipient["username"]}:\n{sender["username"]}: ")
-        recipient["notifications"].append({"message": f"{sender["username"]} has sent you a message.", "isRead": False})
-        recipient["chats"].append({"from": sender["username"], "message": message, "isRead": False})
+        message = input(f"To {recipient_username}:\n{sender_username}: ")
+        recipient["notifications"].append({"message": f"{sender_username} has sent you a message.", "isRead": False})
+        recipient["chats"].append({"from": sender_username, "message": message, "isRead": False})
         self.save_json(data)
 
         print(colored(f"\nMessage sent to {recipient_username}", "green"))
@@ -169,39 +163,29 @@ class Server:
         else: ## if they have a new notification return a string to display
             return colored(f"({unread_count} new {category})", "blue")
     
-    def print_user_notifications(self, user):
+    def print_user_category(self, user, category):
         data = self.load_json()
         username = user["username"]
         user = data["clients"].get(username)
-
-        if user["notifications"] == []:
-            print(colored("\nYou have 0 notifications", "yellow"))
+        ## category could either be chats or notifications
+        if user[category] == []:
+            print(colored(f"\nYou have 0 {category}", "yellow"))
         else:
-            print(f"\n{username}'s notifications\n")
-            for notification in user["notifications"]:
-                if notification["isRead"]:
-                    print(notification["message"])
+            print(f"\n{username}'s {category}\n")
+            for thing in user[category]:
+                if thing["isRead"]:
+                    if category == "notifications":
+                        print(thing["message"])
+                    else:
+                        print(f"{thing["from"]}: {thing["message"]}")
                 else:
-                    print(colored(f"NEW: {notification["message"]} ", "blue"))
-                    notification["isRead"] = True
+                    if category == "notifications":
+                        print(colored(f"NEW: {thing["message"]} ", "blue"))
+                    else:
+                        print(colored(f"{thing["from"]}: {thing["message"]} (NEW)", "blue"))
+
+                    thing["isRead"] = True
         
-        self.save_json(data)
-
-    def print_user_chats(self, user):
-        data = self.load_json()
-        username = user["username"]
-        user = data["clients"].get(username)
-
-        if user["notifications"] == []:
-            print(colored("\nYou have 0 chats", "yellow"))
-        else:
-            print(f"\n{username}'s chats\n")
-            for chat in user["chats"]:
-                if chat["isRead"]:
-                    print(f"{chat["from"]}: {chat["message"]}")
-                else:
-                    print(colored(f"{chat["from"]}: {chat["message"]} (NEW)", "blue"))
-                    chat["isRead"] = True
         self.save_json(data)
 
     def joinNotification(self, username):

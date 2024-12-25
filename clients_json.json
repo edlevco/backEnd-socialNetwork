@@ -1,0 +1,160 @@
+{
+    "clients": {
+        "Pinstagram": {
+            "username": "Pinstagram",
+            "password": "JDJiJDEyJGE5bXB5Y0hQZ091VXFjZzZmTS5DYnVzL0g4dEM0SFA1RGNhOWY0SnFpUkt5TlNDdlg1Q0dL",
+            "followers": [
+                "filler_user",
+                "filler_user",
+                "filler_user",
+                "filler_user",
+                "filler_user",
+                "filler_user",
+                "filler_user",
+                "filler_user",
+                "filler_user",
+                "Hen"
+            ],
+            "notifications": [
+                {
+                    "message": "Hen has followed you.",
+                    "isRead": false
+                },
+                {
+                    "message": "Hen has sent you a message.",
+                    "isRead": false
+                },
+                {
+                    "message": "Hen has unfollowed you.",
+                    "isRead": false
+                },
+                {
+                    "message": "Hen has followed you.",
+                    "isRead": false
+                },
+                {
+                    "message": "Hen has unfollowed you.",
+                    "isRead": false
+                },
+                {
+                    "message": "Hen has followed you.",
+                    "isRead": false
+                }
+            ],
+            "chats": [
+                {
+                    "from": "Hen",
+                    "message": "hello??",
+                    "isRead": false
+                }
+            ]
+        },
+        "Ed": {
+            "username": "Ed",
+            "password": "JDJiJDEyJGh5NVRsZzVaMnhLVG1CY3A3cEZUWWVRRUp1QXpUdU5KaGpzSWJMejNEZkdSSTFzL0xvZ0JX",
+            "notifications": [
+                {
+                    "message": "PInstagram has sent you a message.",
+                    "isRead": false
+                },
+                {
+                    "message": "Bob has followed you.",
+                    "isRead": false
+                },
+                {
+                    "message": "Bob has unfollowed you.",
+                    "isRead": false
+                },
+                {
+                    "message": "Bob has followed you.",
+                    "isRead": false
+                },
+                {
+                    "message": "Bob has unfollowed you.",
+                    "isRead": false
+                },
+                {
+                    "message": "Bob has followed you.",
+                    "isRead": false
+                },
+                {
+                    "message": "Bob has unfollowed you.",
+                    "isRead": false
+                },
+                {
+                    "message": "Bob has followed you.",
+                    "isRead": false
+                },
+                {
+                    "message": "Bob has unfollowed you.",
+                    "isRead": false
+                },
+                {
+                    "message": "Bob has followed you.",
+                    "isRead": false
+                }
+            ],
+            "followers": [
+                "Bob"
+            ],
+            "chats": [
+                {
+                    "from": "PInstagram",
+                    "message": "Welcome to PInstagram!!",
+                    "isRead": false
+                }
+            ]
+        },
+        "Bob": {
+            "username": "Bob",
+            "password": "JDJiJDEyJGczQnJSbUtwVldsWFZpMGRmLkxYZ3VjdFptb0JUaHhJRzhFUzY3QlYvSHlzbDFpTU9WSnJh",
+            "notifications": [
+                {
+                    "message": "PInstagram has sent you a message.",
+                    "isRead": false
+                },
+                {
+                    "message": "Hen has followed you.",
+                    "isRead": false
+                },
+                {
+                    "message": "Hen has sent you a message.",
+                    "isRead": false
+                }
+            ],
+            "followers": [
+                "Hen"
+            ],
+            "chats": [
+                {
+                    "from": "PInstagram",
+                    "message": "Welcome to PInstagram!!",
+                    "isRead": false
+                },
+                {
+                    "from": "Hen",
+                    "message": "hello",
+                    "isRead": false
+                }
+            ]
+        },
+        "Hen": {
+            "username": "Hen",
+            "password": "JDJiJDEyJC5obGpZT2ZuLjh6bkpycE9EeWh4MmU4dFo0SlAud0ZtSUhaMHdmYmJPN3B3aGFKYktjTk5H",
+            "notifications": [
+                {
+                    "message": "PInstagram has sent you a message.",
+                    "isRead": false
+                }
+            ],
+            "followers": [],
+            "chats": [
+                {
+                    "from": "PInstagram",
+                    "message": "Welcome to PInstagram!!",
+                    "isRead": false
+                }
+            ]
+        }
+    }
+}
